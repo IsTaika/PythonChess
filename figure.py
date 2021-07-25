@@ -284,3 +284,4 @@ class Bishop(Figure):
         return moves
 
 class Rook(Figure):
+
