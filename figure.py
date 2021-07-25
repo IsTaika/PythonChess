@@ -45,6 +45,9 @@ class Figure:
         self.line = pos[0]
         self.row = pos[1]
 
+    def update_possible_moves(self, board):
+        self.move_l = self.possible_moves(board)
+
 
 class Pawn(Figure):
     img = 5
