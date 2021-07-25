@@ -153,41 +153,65 @@ class King(Figure):
             mov = board[i - 1][j]
             if mov == 0:
                 moves.append((i - 1, j))
+            elif mov.color != self.color:
+                moves.append((i - 1, j))
+
             # назад влево
             if j > 0:
                 mov = board[i - 1][j - 1]
                 if mov == 0:
                     moves.append((i - 1, j - 1))
+                elif mov.color != self.color:
+                    moves.append((i - 1, j - 1))
+
             # назад вправо
             if j < 7:
                 mov = board[i - 1]
                 if mov == 0:
                     moves.append((i - 1, j + 1))
+                elif mov.color != self.color:
+                    moves.append((i - 1, j + 1))
+
         if i < 7:
             # вперёд
             mov = board[i + 1][j]
             if mov == 0:
                 moves.append((i + 1, j))
+            elif mov.color != self.color:
+                moves.append((i + 1, j))
+
             # вперёд влево
             if j > 0:
                 mov = board[i + 1][j - 1]
                 if mov == 0:
                     moves.append((i + 1, j - 1))
+                elif mov.color != self.color:
+                    moves.append((i + 1, j - 1))
+
             # вперёд вправо
             if j < 7:
                 mov = board[i + 1][j + 1]
                 if mov == 0:
                     moves.append((i + 1, j + 1))
+                elif mov.color != self.color:
+                    moves.append((i + 1, j + 1))
+
         # влево
         if j > 0:
             mov = board[i][j - 1]
             if mov == 0:
                 moves.append((i, j - 1))
+            elif mov.color != self.color:
+                moves.append((i, j - 1))
+
         # враво
         if j < 7:
             mov = board[i][j + 1]
             if mov == 0:
                 moves.append((i, j + 1))
+            elif mov.color != self.color:
+                moves.append((i, j + 1))
+
         return moves
 
 
@@ -203,20 +227,31 @@ class Knight(Figure):
             mov = board[i + 2][j - 1]
             if mov == 0:
                 moves.append((i + 2, j - 1))
+            elif mov.color != self.color:
+                moves.append((i + 2, j - 1))
+
         # вниз вправо
         if (i < 6) and (j < 7):
             mov = board[i + 2][j + 1]
             if mov == 0:
                 moves.append((i + 2, j + 1))
+            elif mov.color != self.color:
+                moves.append((i + 2, j + 1))
+
         # вверх влево
         if (i > 1) and (j > 0):
             mov = board[i - 2][j - 1]
             if mov == 0:
                 moves.append((i - 2, j - 1))
+            elif mov.color != self.color:
+                moves.append((i - 2, j - 1))
+
         # вверх вправо
         if (i > 1) and (j < 7):
             mov = board[i - 2][j + 1]
             if mov == 0:
+                moves.append((i - 2, j + 1))
+            elif mov.color != self.color:
                 moves.append((i - 2, j + 1))
 
         return moves
@@ -237,6 +272,10 @@ class Bishop(Figure):
                 mov = board[ti, tjr]
                 if mov == 0:
                     moves.append((ti, tjr))
+                elif mov.color != self.color:
+                    moves.append((ti, tjr))
+                    break
+
                 else:
                     break
             else:
@@ -249,6 +288,10 @@ class Bishop(Figure):
                 mov = board[ti][tjl]
                 if mov == 0:
                     moves.append((ti, tjl))
+                elif mov.color != self.color:
+                    moves.append((ti, tjl))
+                    break
+
                 else:
                     break
             else:
@@ -264,6 +307,10 @@ class Bishop(Figure):
                 mov = board[ti, tjr]
                 if mov == 0:
                     moves.append((ti, tjr))
+                elif mov.color != self.color:
+                    moves.append((ti, tjr))
+                    break
+
                 else:
                     break
             else:
@@ -275,6 +322,10 @@ class Bishop(Figure):
                 mov = board[ti, tjl]
                 if mov == 0:
                     moves.append((ti, tjl))
+                elif mov.color != self.color:
+                    moves.append((ti, tjl))
+                    break
+
                 else:
                     break
             else:
@@ -297,6 +348,10 @@ class Rook(Figure):
             mov = board[ix][j]
             if mov == 0:
                 moves.append((ix, j))
+            elif mov.color != self.color:
+                moves.append((ix, j))
+                break
+
             else:
                 break
 
@@ -305,6 +360,10 @@ class Rook(Figure):
             mov = board[ix][j]
             if mov == 0:
                 moves.append((ix, j))
+            elif mov.color != self.color:
+                moves.append((ix, j))
+                break
+
             else:
                 break
         # влево
@@ -312,6 +371,10 @@ class Rook(Figure):
             mov = board[i][jx]
             if mov == 0:
                 moves.append((i, jx))
+            elif mov.color != self.color:
+                moves.append((i, jx))
+                break
+
             else:
                 break
         # враво
@@ -319,6 +382,10 @@ class Rook(Figure):
             mov = board[i][jx]
             if mov == 0:
                 moves.append((i, jx))
+            elif mov.color != self.color:
+                moves.append((i, jx))
+                break
+
             else:
                 break
         return moves
@@ -337,6 +404,10 @@ class Queen(Figure):
             mov = board[ix][j]
             if mov == 0:
                 moves.append((ix, j))
+            elif mov.color != self.color:
+                moves.append((ix, j))
+                break
+
             else:
                 break
 
@@ -345,6 +416,10 @@ class Queen(Figure):
             mov = board[ix][j]
             if mov == 0:
                 moves.append((ix, j))
+            elif mov.color != self.color:
+                moves.append((ix, j))
+                break
+
             else:
                 break
         # влево
@@ -352,6 +427,10 @@ class Queen(Figure):
             mov = board[i][jx]
             if mov == 0:
                 moves.append((i, jx))
+            elif mov.color != self.color:
+                moves.append((i, jx))
+                break
+
             else:
                 break
         # враво
@@ -359,58 +438,78 @@ class Queen(Figure):
             mov = board[i][jx]
             if mov == 0:
                 moves.append((i, jx))
-            else:
-                break
-        # вверх вправо
-        tjr = j + 1
-        tjl = j - 1
-        for ti in range(i - 1, -1, -1):
-            if tjr < 8:
-                mov = board[ti, tjr]
-                if mov == 0:
-                    moves.append((ti, tjr))
-                else:
-                    break
-            else:
-                break
-            tjr += 1
-
-        # вверх влево
-        for ti in range(i - 1, -1, -1):
-            if tjl > -1:
-                mov = board[ti][tjl]
-                if mov == 0:
-                    moves.append((ti, tjl))
-                else:
-                    break
-            else:
+            elif mov.color != self.color:
+                moves.append((i, jx))
                 break
 
-            tjl += 1
-
-        # вниз вправо
-        tjr = j + 1
-        tjl = j - 1
-        for ti in range(i + 1, 8):
-            if tjr < 8:
-                mov = board[ti, tjr]
-                if mov == 0:
-                    moves.append((ti, tjr))
-                else:
-                    break
             else:
                 break
-            tjr += 1
-        # вверх влево
-        for ti in range(i + 1, 8):
-            if tjl < 8:
-                mov = board[ti, tjl]
-                if mov == 0:
-                    moves.append((ti, tjl))
-                else:
-                    break
-            else:
-                break
-            tjl += 1
+                # вверх вправо
+                tjr = j + 1
+                tjl = j - 1
+                for ti in range(i - 1, -1, -1):
+                    if tjr < 8:
+                        mov = board[ti, tjr]
+                        if mov == 0:
+                            moves.append((ti, tjr))
+                        elif mov.color != self.color:
+                            moves.append((ti, tjr))
+                            break
 
-        return moves
+                        else:
+                            break
+                    else:
+                        break
+                    tjr += 1
+
+                # вверх влево
+                for ti in range(i - 1, -1, -1):
+                    if tjl > -1:
+                        mov = board[ti][tjl]
+                        if mov == 0:
+                            moves.append((ti, tjl))
+                        elif mov.color != self.color:
+                            moves.append((ti, tjl))
+                            break
+
+                        else:
+                            break
+                    else:
+                        break
+
+                    tjl += 1
+
+                # вниз вправо
+                tjr = j + 1
+                tjl = j - 1
+                for ti in range(i + 1, 8):
+                    if tjr < 8:
+                        mov = board[ti, tjr]
+                        if mov == 0:
+                            moves.append((ti, tjr))
+                        elif mov.color != self.color:
+                            moves.append((ti, tjr))
+                            break
+
+                        else:
+                            break
+                    else:
+                        break
+                    tjr += 1
+                # вверх влево
+                for ti in range(i + 1, 8):
+                    if tjl < 8:
+                        mov = board[ti, tjl]
+                        if mov == 0:
+                            moves.append((ti, tjl))
+                        elif mov.color != self.color:
+                            moves.append((ti, tjl))
+                            break
+
+                        else:
+                            break
+                    else:
+                        break
+                    tjl += 1
+
+                return moves
