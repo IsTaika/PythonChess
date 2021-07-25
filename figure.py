@@ -137,3 +137,57 @@ class Pawn(Figure):
                     if mov == 0:
                         if (mov2.color != self.color) and (mov2.type == self.type):
                             moves.append((i + 1, j - 1))
+
+        return moves
+
+
+class King(Figure):
+    img = 1
+    def possible_moves(self, board):
+        i = self.line
+        j = self.row
+        moves = []
+        if i > 0:
+            # назад
+            mov = board[i - 1][j]
+            if mov == 0:
+                moves.append((i - 1, j))
+            # назад влево
+            if j > 0:
+                mov = board[i - 1][j - 1]
+                if mov == 0:
+                    moves.append((i - 1, j - 1))
+            # назад вправо
+            if j < 7:
+                mov = board[i-1]
+                if mov == 0:
+                    moves.append((i - 1, j + 1))
+        if i < 7:
+            # вперёд
+            mov = board[i + 1][j]
+            if mov == 0:
+                moves.append((i + 1, j))
+            # вперёд влево
+            if j > 0:
+                mov = board[i + 1][j - 1]
+                if mov == 0:
+                    moves.append((i + 1, j - 1))
+            # вперёд вправо
+            if j < 7:
+                mov = board[i + 1][j + 1]
+                if mov == 0:
+                    moves.append((i + 1, j + 1))
+        # влево
+        if j > 0:
+            mov = board[i][j - 1]
+            if mov == 0:
+                moves.append((i, j - 1))
+        # враво
+        if j < 7:
+            mov = board[i][j + 1]
+            if mov == 0:
+                moves.append((i, j + 1))
+        return moves
+
+class Knight(Figure):
+    img =
