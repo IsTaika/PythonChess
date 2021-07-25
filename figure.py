@@ -220,3 +220,67 @@ class Knight(Figure):
                 moves.append((i - 2, j + 1))
 
         return moves
+
+
+class Bishop(Figure):
+    img = 0
+
+    def possible_moves(self, board):
+        i = self.line
+        j = self.row
+        moves = []
+        # вверх вправо
+        tjr = j + 1
+        tjl = j - 1
+        for ti in range(i - 1, -1, -1):
+            if tjr < 8:
+                mov = board[ti, tjr]
+                if mov == 0:
+                    moves.append((ti, tjr))
+                else:
+                    break
+            else:
+                break
+            tjr += 1
+
+        # вверх влево
+        for ti in range(i - 1, -1, -1):
+            if tjl > -1:
+                mov = board[ti][tjl]
+                if mov == 0:
+                    moves.append((ti, tjl))
+                else:
+                    break
+            else:
+                break
+
+            tjl += 1
+
+        # вниз вправо
+        tjr = j + 1
+        tjl = j - 1
+        for ti in range(i + 1, 8):
+            if tjr < 8:
+                mov = board[ti, tjr]
+                if mov == 0:
+                    moves.append((ti, tjr))
+                else:
+                    break
+            else:
+                break
+            tjr += 1
+        # вверх влево
+        for ti in range(i + 1, 8):
+            if tjl < 8:
+                mov = board[ti, tjl]
+                if mov == 0:
+                    moves.append((ti, tjl))
+                else:
+                    break
+            else:
+                break
+            tjl += 1
+
+        return moves
+
+class Rook(Figure):
