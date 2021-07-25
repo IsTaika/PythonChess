@@ -283,6 +283,7 @@ class Bishop(Figure):
 
         return moves
 
+
 class Rook(Figure):
     img = 4
 
@@ -292,7 +293,7 @@ class Rook(Figure):
         moves = []
 
         # вверх
-        for ix in range(i -1, -1, -1):
+        for ix in range(i - 1, -1, -1):
             mov = board[ix][j]
             if mov == 0:
                 moves.append((ix, j))
@@ -307,14 +308,14 @@ class Rook(Figure):
             else:
                 break
         # влево
-        for jx in range(j-1, -1, -1):
+        for jx in range(j - 1, -1, -1):
             mov = board[i][jx]
             if mov == 0:
                 moves.append((i, jx))
             else:
                 break
-        #враво
-        for jx in range(j+1, 8, 1):
+        # враво
+        for jx in range(j + 1, 8, 1):
             mov = board[i][jx]
             if mov == 0:
                 moves.append((i, jx))
@@ -323,3 +324,93 @@ class Rook(Figure):
         return moves
 
 
+class Queen(Figure):
+    img = 2
+
+    def possible_moves(self, board):
+        i = self.line
+        j = self.row
+        moves = []
+
+        # вверх
+        for ix in range(i - 1, -1, -1):
+            mov = board[ix][j]
+            if mov == 0:
+                moves.append((ix, j))
+            else:
+                break
+
+        # вниз:
+        for ix in range(i + 1, 8, 1):
+            mov = board[ix][j]
+            if mov == 0:
+                moves.append((ix, j))
+            else:
+                break
+        # влево
+        for jx in range(j - 1, -1, -1):
+            mov = board[i][jx]
+            if mov == 0:
+                moves.append((i, jx))
+            else:
+                break
+        # враво
+        for jx in range(j + 1, 8, 1):
+            mov = board[i][jx]
+            if mov == 0:
+                moves.append((i, jx))
+            else:
+                break
+        # вверх вправо
+        tjr = j + 1
+        tjl = j - 1
+        for ti in range(i - 1, -1, -1):
+            if tjr < 8:
+                mov = board[ti, tjr]
+                if mov == 0:
+                    moves.append((ti, tjr))
+                else:
+                    break
+            else:
+                break
+            tjr += 1
+
+        # вверх влево
+        for ti in range(i - 1, -1, -1):
+            if tjl > -1:
+                mov = board[ti][tjl]
+                if mov == 0:
+                    moves.append((ti, tjl))
+                else:
+                    break
+            else:
+                break
+
+            tjl += 1
+
+        # вниз вправо
+        tjr = j + 1
+        tjl = j - 1
+        for ti in range(i + 1, 8):
+            if tjr < 8:
+                mov = board[ti, tjr]
+                if mov == 0:
+                    moves.append((ti, tjr))
+                else:
+                    break
+            else:
+                break
+            tjr += 1
+        # вверх влево
+        for ti in range(i + 1, 8):
+            if tjl < 8:
+                mov = board[ti, tjl]
+                if mov == 0:
+                    moves.append((ti, tjl))
+                else:
+                    break
+            else:
+                break
+            tjl += 1
+
+        return moves
