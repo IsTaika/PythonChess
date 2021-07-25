@@ -143,6 +143,7 @@ class Pawn(Figure):
 
 class King(Figure):
     img = 1
+
     def possible_moves(self, board):
         i = self.line
         j = self.row
@@ -159,7 +160,7 @@ class King(Figure):
                     moves.append((i - 1, j - 1))
             # назад вправо
             if j < 7:
-                mov = board[i-1]
+                mov = board[i - 1]
                 if mov == 0:
                     moves.append((i - 1, j + 1))
         if i < 7:
@@ -189,5 +190,33 @@ class King(Figure):
                 moves.append((i, j + 1))
         return moves
 
+
 class Knight(Figure):
-    img =
+    img = 3
+
+    def possible_moves(self, board):
+        i = self.line
+        j = self.row
+        moves = []
+        # вниз влево
+        if (i < 6) and (j > 0):
+            mov = board[i + 2][j - 1]
+            if mov == 0:
+                moves.append((i + 2, j - 1))
+        # вниз вправо
+        if (i < 6) and (j < 7):
+            mov = board[i + 2][j + 1]
+            if mov == 0:
+                moves.append((i + 2, j + 1))
+        # вверх влево
+        if (i > 1) and (j > 0):
+            mov = board[i - 2][j - 1]
+            if mov == 0:
+                moves.append((i - 2, j - 1))
+        # вверх вправо
+        if (i > 1) and (j < 7):
+            mov = board[i - 2][j + 1]
+            if mov == 0:
+                moves.append((i - 2, j + 1))
+
+        return moves
