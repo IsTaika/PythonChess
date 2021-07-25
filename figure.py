@@ -284,4 +284,42 @@ class Bishop(Figure):
         return moves
 
 class Rook(Figure):
+    img = 4
+
+    def possible_moves(self, board):
+        i = self.line
+        j = self.row
+        moves = []
+
+        # вверх
+        for ix in range(i -1, -1, -1):
+            mov = board[ix][j]
+            if mov == 0:
+                moves.append((ix, j))
+            else:
+                break
+
+        # вниз:
+        for ix in range(i + 1, 8, 1):
+            mov = board[ix][j]
+            if mov == 0:
+                moves.append((ix, j))
+            else:
+                break
+        # влево
+        for jx in range(j-1, -1, -1):
+            mov = board[i][jx]
+            if mov == 0:
+                moves.append((i, jx))
+            else:
+                break
+        #враво
+        for jx in range(j+1, 8, 1):
+            mov = board[i][jx]
+            if mov == 0:
+                moves.append((i, jx))
+            else:
+                break
+        return moves
+
 
