@@ -1,0 +1,139 @@
+import pygame
+
+b_pawn = pygame.image.load('/img', 'black_pawn.png')
+b_king = pygame.image.load('/img', ' black_king.png')
+b_queen = pygame.image.load('/img', 'black_queen.png')
+b_bishop = pygame.image.load('/img', 'black_bishop.png')
+b_rook = pygame.image.load('/img', 'black_rook.png')
+b_knight = pygame.image.load('/img', 'black_knight.png')
+
+w_pawn = pygame.image.load('/img', 'white_pawn.png')
+w_king = pygame.image.load('/img', ' white_king.png')
+w_queen = pygame.image.load('/img', 'white_queen.png')
+w_bishop = pygame.image.load('/img', 'white_bishop.png')
+w_rook = pygame.image.load('/img', 'white_rook.png')
+w_knight = pygame.image.load('/img', 'white_knight.png')
+
+b = [b_bishop, b_king, b_queen, b_knight, b_rook, b_pawn]
+w = [w_bishop, w_king, w_queen, w_knight, w_rook, w_pawn]
+
+B = []
+W = []
+
+for img in b:
+    B.append(pygame.transform.scale(img, (50, 50)))
+
+for img in w:
+    W.append(pygame.transform.scale(img, (50, 50)))
+
+
+class Figure:
+    img = -1
+
+    def __init__(self, color, type, line, row):
+        self.row = row
+        self.line = line
+        self.selected = False
+        self.color = color
+        self.type = type
+        self.move_l = []
+
+    def isselected(self):
+        return self.selected
+
+    def change_position(self, pos):
+        self.line = pos[0]
+        self.row = pos[1]
+
+
+class Pawn(Figure):
+    img = 5
+
+    def possible_moves(self, board):
+        i = self.line
+        j = self.row
+        moves = []
+        # BLACK
+        if self.color == 'black':
+            # ход вперёд
+            if i < 7:
+                mov = board[i + 1][j]
+                if mov == 0:
+                    moves.append((i + 1, j))
+
+            # съедание вправо
+            if j < 7:
+                mov = board[i + 1][j + 1]
+                if (mov != 0) and (mov.color != self.color):
+                    moves.append((i + 1, j - 1))
+
+            # съедание влево
+            if j > 0:
+                mov = board[i + 1][j - 1]
+                if (mov != 0) and (mov.color != self.color):
+                    moves.append((i + 1, j - 1))
+
+            # первый ход
+            if i == 1:
+                mov = board[i + 1][j]
+                mov2 = board[i + 2][j]
+                if (mov == 0) and (mov2 == 0):
+                    moves.append((i + 2, j))
+
+            # взятие на проходе справа
+            if (i == 4) and (j < 7):
+                mov = board[i + 1][j + 1]
+                mov2 = board[i][j + 1]
+                if mov == 0:
+                    if (mov2.color != self.color) and (mov2.type == self.type):
+                        moves.append((i + 1, j + 1))
+
+            # взятие на проходе слева
+            if (i == 4) and (j > 0):
+                mov = board[i + 1][j - 1]
+                mov2 = board[i][j - 1]
+                if mov == 0:
+                    if (mov2.color != self.color) and (mov2.type == self.type):
+                        moves.append((i + 1, j - 1))
+            # WHITE
+            else:
+                # ход вперёд
+                if i > 0:
+                    mov = board[i - 1][j]
+                    if mov == 0:
+                        moves.append((i - 1, j))
+
+                # съедание вправо
+                if j < 7:
+                    mov = board[i - 1][j + 1]
+                    if (mov != 0) and (mov.color != self.color):
+                        moves.append((i - 1, j - 1))
+
+                # съедание влево
+                if j > 0:
+                    mov = board[i - 1][j - 1]
+                    if (mov != 0) and (mov.color != self.color):
+                        moves.append((i - 1, j - 1))
+
+                # первый ход
+                if i == 6:
+                    mov = board[i - 2][j]
+                    mov2 = board[i - 1][j]
+                    if (mov == 0) and (mov2 == 0):
+                        moves.append((i - 2, j))
+
+                # взятие на проходе справа
+                if (i == 3) and (j < 7):
+                    mov = board[i - 1][j + 1]
+                    mov2 = board[i][j + 1]
+                    if mov == 0:
+                        if (mov2.color != self.color) and (mov2.type == self.type):
+                            moves.append((i - 1, j + 1))
+
+                # взятие на проходе слева
+                if (i == 3) and (j > 0):
+                    mov = board[i - 1][j - 1]
+                    mov2 = board[i][j - 1]
+                    if mov == 0:
+                        if (mov2.color != self.color) and (mov2.type == self.type):
+                            moves.append((i + 1, j - 1))
