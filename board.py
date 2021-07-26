@@ -9,6 +9,11 @@ import pygame
 
 
 class Board:
+    rez = [146, 146, 1168, 1168]
+    startX = rez[0]
+    startY = rez[1]
+
+
     def __init__(self, rows, lines, mode):
         self.rows = rows
         self.lines = lines
@@ -117,14 +122,14 @@ class Board:
                     self.board.seleted == False
 
     def move(self, start, end, color):
-        cheked = self.check(color)
+        checked = self.check(color)
         change = True
         newBoard = self.board
         newBoard[start[0]][start[1]].change_position((end[0], end[1]))
         newBoard[end[0]][end[1]] = newBoard[start[0]][start[1]]
         newBoard[start[0]][start[1]] = 0
         self.board = newBoard
-        if self.check(color) or (cheked and self.check(color)):
+        if self.check(color) or (checked and self.check(color)):
             change = False
             newBoard = self.board
             newBoard[end[0]][end[1]].change_position((start[0], start[1]))

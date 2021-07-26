@@ -29,6 +29,9 @@ for img in w:
 
 class Figure:
     img = -1
+    rez = [146, 146, 1168, 1166]
+    startX = rez[0]
+    startY = rez[1]
 
     def __init__(self, color, type, line, row):
         self.row = row
