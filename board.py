@@ -52,6 +52,9 @@ class Board:
 
         self.mode = mode
 
+        self.turn = 'w'
+        self.winner = None
+
     def update_moves(self):
         for i in range(self.lines):
             for j in range(self.rows):
@@ -97,6 +100,14 @@ class Board:
                 change = self.move(pos, (line, row), color)
         else:
             if pos == (-1, -1):
+                self.reset_select()
+
+        if change:
+            if self.turn == 'w':
+                self.turn = 'b'
+                self.reset_select()
+            else:
+                self.turn = 'w'
                 self.reset_select()
 
     def reset_select(self):
