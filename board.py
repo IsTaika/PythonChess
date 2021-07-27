@@ -13,7 +13,6 @@ class Board:
     startX = rez[0]
     startY = rez[1]
 
-
     def __init__(self, rows, lines, mode):
         self.rows = rows
         self.lines = lines

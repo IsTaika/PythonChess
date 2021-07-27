@@ -450,72 +450,72 @@ class Queen(Figure):
 
             else:
                 break
-                # вверх вправо
-                tjr = j + 1
-                tjl = j - 1
-                for ti in range(i - 1, -1, -1):
-                    if tjr < 8:
-                        mov = board[ti, tjr]
-                        if mov == 0:
-                            moves.append((ti, tjr))
-                        elif mov.color != self.color:
-                            moves.append((ti, tjr))
-                            break
+        # вверх вправо
+        tjr = j + 1
+        tjl = j - 1
+        for ti in range(i - 1, -1, -1):
+            if tjr < 8:
+                mov = board[ti, tjr]
+                if mov == 0:
+                    moves.append((ti, tjr))
+                elif mov.color != self.color:
+                    moves.append((ti, tjr))
+                    break
 
-                        else:
-                            break
-                    else:
-                        break
-                    tjr += 1
+                else:
+                    break
+            else:
+                break
+            tjr += 1
 
-                # вверх влево
-                for ti in range(i - 1, -1, -1):
-                    if tjl > -1:
-                        mov = board[ti][tjl]
-                        if mov == 0:
-                            moves.append((ti, tjl))
-                        elif mov.color != self.color:
-                            moves.append((ti, tjl))
-                            break
+        # вверх влево
+        for ti in range(i - 1, -1, -1):
+            if tjl > -1:
+                mov = board[ti][tjl]
+                if mov == 0:
+                    moves.append((ti, tjl))
+                elif mov.color != self.color:
+                    moves.append((ti, tjl))
+                    break
 
-                        else:
-                            break
-                    else:
-                        break
+                else:
+                    break
+            else:
+                break
 
-                    tjl += 1
+            tjl += 1
 
-                # вниз вправо
-                tjr = j + 1
-                tjl = j - 1
-                for ti in range(i + 1, 8):
-                    if tjr < 8:
-                        mov = board[ti, tjr]
-                        if mov == 0:
-                            moves.append((ti, tjr))
-                        elif mov.color != self.color:
-                            moves.append((ti, tjr))
-                            break
+        # вниз вправо
+        tjr = j + 1
+        tjl = j - 1
+        for ti in range(i + 1, 8):
+            if tjr < 8:
+                mov = board[ti, tjr]
+                if mov == 0:
+                    moves.append((ti, tjr))
+                elif mov.color != self.color:
+                    moves.append((ti, tjr))
+                    break
 
-                        else:
-                            break
-                    else:
-                        break
-                    tjr += 1
-                # вверх влево
-                for ti in range(i + 1, 8):
-                    if tjl < 8:
-                        mov = board[ti, tjl]
-                        if mov == 0:
-                            moves.append((ti, tjl))
-                        elif mov.color != self.color:
-                            moves.append((ti, tjl))
-                            break
+                else:
+                    break
+            else:
+                break
+            tjr += 1
+        # вверх влево
+        for ti in range(i + 1, 8):
+            if tjl < 8:
+                mov = board[ti, tjl]
+                if mov == 0:
+                    moves.append((ti, tjl))
+                elif mov.color != self.color:
+                    moves.append((ti, tjl))
+                    break
 
-                        else:
-                            break
-                    else:
-                        break
-                    tjl += 1
+                else:
+                    break
+            else:
+                break
+            tjl += 1
 
-                return moves
+        return moves
