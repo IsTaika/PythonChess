@@ -9,11 +9,11 @@ import pygame
 
 
 class Board:
-    rez = [146, 146, 1168, 1168]
+    rez = [94, 94, 752, 752]
     startX = rez[0]
     startY = rez[1]
 
-    def __init__(self, rows, lines, mode):
+    def __init__(self, rows, lines):
         self.rows = rows
         self.lines = lines
         self.board = [[0 for i in range(8)] for _ in range(rows)]
@@ -54,10 +54,9 @@ class Board:
         self.board[6][6] = Pawn("white", "pawn", 6, 6)
         self.board[6][7] = Pawn("white", "pawn", 6, 7)
 
-        self.mode = mode
-
         self.turn = 'w'
         self.winner = None
+        self.last =  None
 
     def update_moves(self):
         for i in range(self.lines):
@@ -89,6 +88,24 @@ class Board:
         else:
             return False
 
+    def checkmate(self, color):
+        if self.check(color):
+            d_moves = self.danger_moves(color)
+            test_board = self.board
+            for zeroing in d_moves:
+                test_board.move(zeroing)
+                if test_board.check(color):
+                    test_board = self.board
+                else:
+                    return False
+            if self.color == 'white':
+                self.winner = 'black'
+            else:
+                self.winner = 'white'
+            return True
+        else:
+            return False
+
     def select(self, line, row, color):
         change = False
         pos = (-1, -1)
@@ -107,18 +124,18 @@ class Board:
                 self.reset_select()
 
         if change:
-            if self.turn == 'w':
-                self.turn = 'b'
+            if self.turn == 'white':
+                self.turn = 'black'
                 self.reset_select()
             else:
-                self.turn = 'w'
+                self.turn = 'white'
                 self.reset_select()
 
     def reset_select(self):
         for i in range(self.lines):
             for j in range(self.rows):
                 if self.board[i][j] != 0:
-                    self.board.seleted == False
+                    self.board[i][j].seleted = False
 
     def move(self, start, end, color):
         checked = self.check(color)
@@ -138,4 +155,14 @@ class Board:
         else:
             self.reset_select()
         self.update_moves()
+        if change:
+            self.last = [start, end]
         return change
+
+    def icon(self, window):
+        for i in range(self.lines):
+            for j in range(self.rows):
+                if self.board[i][j] != 0:
+                    self.board[i][j].icon(window)
+
+

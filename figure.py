@@ -1,18 +1,19 @@
 import pygame
+import os
 
-b_pawn = pygame.image.load('/img', 'black_pawn.png')
-b_king = pygame.image.load('/img', ' black_king.png')
-b_queen = pygame.image.load('/img', 'black_queen.png')
-b_bishop = pygame.image.load('/img', 'black_bishop.png')
-b_rook = pygame.image.load('/img', 'black_rook.png')
-b_knight = pygame.image.load('/img', 'black_knight.png')
+b_pawn = pygame.image.load(os.path.join('img', 'black_pawn.png'))
+b_king = pygame.image.load(os.path.join('img', 'black_king.png'))
+b_queen = pygame.image.load(os.path.join('img', 'black_queen.png'))
+b_bishop = pygame.image.load(os.path.join('img', 'black_bishop.png'))
+b_rook = pygame.image.load(os.path.join('img', 'black_rook.png'))
+b_knight = pygame.image.load(os.path.join('img', 'black_knight.png'))
 
-w_pawn = pygame.image.load('/img', 'white_pawn.png')
-w_king = pygame.image.load('/img', ' white_king.png')
-w_queen = pygame.image.load('/img', 'white_queen.png')
-w_bishop = pygame.image.load('/img', 'white_bishop.png')
-w_rook = pygame.image.load('/img', 'white_rook.png')
-w_knight = pygame.image.load('/img', 'white_knight.png')
+w_pawn = pygame.image.load(os.path.join('img', 'white_pawn.png'))
+w_king = pygame.image.load(os.path.join('img', 'white_king.png'))
+w_queen = pygame.image.load(os.path.join('img', 'white_queen.png'))
+w_bishop = pygame.image.load(os.path.join('img', 'white_bishop.png'))
+w_rook = pygame.image.load(os.path.join('img', 'white_rook.png'))
+w_knight = pygame.image.load(os.path.join('img', 'white_knight.png'))
 
 b = [b_bishop, b_king, b_queen, b_knight, b_rook, b_pawn]
 w = [w_bishop, w_king, w_queen, w_knight, w_rook, w_pawn]
@@ -21,15 +22,15 @@ B = []
 W = []
 
 for img in b:
-    B.append(pygame.transform.scale(img, (50, 50)))
+    B.append(pygame.transform.scale(img, (90, 90)))
 
 for img in w:
-    W.append(pygame.transform.scale(img, (50, 50)))
+    W.append(pygame.transform.scale(img, (90, 90)))
 
 
 class Figure:
     img = -1
-    rez = [146, 146, 1168, 1166]
+    rez = [94, 94, 752, 752]
     startX = rez[0]
     startY = rez[1]
 
@@ -50,6 +51,16 @@ class Figure:
 
     def update_possible_moves(self, board):
         self.move_l = self.possible_moves(board)
+
+    def icon(self, window):
+        if self.color == 'white':
+            icon = W[self.img]
+        else:
+            icon = B[self.img]
+
+        x = round(self.row * self.rez[2] / 8)
+        y = round(self.line * self.rez[3] / 8)
+        window.blit(icon, (x, y))
 
 
 class Pawn(Figure):
