@@ -4,17 +4,17 @@ import os
 
 
 def click(position):
+    print(position)
+    rez = [94, 94, 752, 752]
     x = position[0]
     y = position[1]
+    i, j = 0, 0
     if rez[0] < x < rez[0] + rez[2]:
-        if rez[0] < y < rez[0] + rez[2]:
-            x2 = x - rez[0]
-            y2 = y - rez[0]
-            i = round(x2 / (rez[2] / 8))
-            j = round(y2 / (rez[2] / 8))
-            return i, j
-    else:
-        return -1, -1
+        i = int(x // (rez[2] / 8))
+    if rez[0] < y < rez[0] + rez[3]:
+        j = int(y // (rez[3] / 8))
+    print(i, ' ', j)
+    return i, j
 
 
 def main(window):

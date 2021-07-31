@@ -56,7 +56,7 @@ class Board:
 
         self.turn = 'w'
         self.winner = None
-        self.last =  None
+        self.last = None
 
     def update_moves(self):
         for i in range(self.lines):
@@ -164,5 +164,3 @@ class Board:
             for j in range(self.rows):
                 if self.board[i][j] != 0:
                     self.board[i][j].icon(window)
-
-
