@@ -141,7 +141,19 @@ class Board:
             print(moves)
             if (line, row) in moves:
                 change = self.move(pos, (line, row), color)
-                self.board[line][row].selected = False
+                if self.board[line][row] != 0:
+                    self.board[line][row].selected = False
+                # съедание на проходе справа для чёрных
+                if (line, row) == (pos[0] + 1, pos[1] + 1) and self.board[line][row].tip == 'pawn':
+                    self.board[pos[0]][pos[1] + 1] = 0
+                # съедание на проходе слева для чёрных
+                if (line, row) == (pos[0] + 1, pos[1] - 1) and self.board[line][row].tip == 'pawn':
+                    self.board[pos[0]][pos[1] - 1] = 0
+                # Для белых:
+                if (line, row) == (pos[0] - 1, pos[1] + 1) and self.board[line][row].tip == 'pawn':
+                    self.board[pos[0]][pos[1] + 1] = 0
+                if (line, row) == (pos[0] - 1, pos[1] - 1) and self.board[line][row].tip == 'pawn':
+                    self.board[pos[0]][pos[1] - 1] = 0
             if not moves:
                 self.board[pos[0]][pos[1]].selected = False
                 self.reset_select()
@@ -170,7 +182,8 @@ class Board:
                     # Рокировка
                     if self.board[line][row].color == color:
                         self.reset_select()
-                        if self.board[pos[0]][pos[1]].moved == False and self.board[pos[0]][pos[1]].tip == 'king' and self.board[line][row].tip == 'rook' and pos != (-1, -1) and row != pos[1]:
+                        if self.board[pos[0]][pos[1]].moved == False and self.board[pos[0]][pos[1]].tip == 'king' and \
+                                self.board[line][row].tip == 'rook' and pos != (-1, -1) and row != pos[1]:
                             castle = True
                             if pos[1] > row:
                                 for j in range(row + 1, pos[1]):
@@ -214,7 +227,6 @@ class Board:
                     self.board[i][j].seleted = False
 
     def move(self, start, end, color):
-        print("DELAETSYA MOVE")
         checked = self.check(color)
         if self.board[start[0]][start[1]].color != color:
             change = False
@@ -239,15 +251,12 @@ class Board:
             self.reset_select()
         self.update_moves()
         if change:
-            self.last = [start, end]
-            self.board[end[0]][end[1]].moved = True
+            if self.board[end[0]][end[1]] != 0:
+                self.board[end[0]][end[1]].moved = True
 
         return change
 
     def icon(self, window):
-        if self.last:
-            y, x = self.last[0]
-            y1, x1 = self.last[1]
 
         for i in range(self.lines):
             for j in range(self.rows):

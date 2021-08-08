@@ -108,7 +108,6 @@ class Pawn(Figure):
                     if mov2 != 0:
                         if (mov2.color != self.color) and (mov2.tip == self.tip):
                             moves.append((i + 1, j + 1))
-                            board[i][j + 1] = 0
 
             # взятие на проходе слева
             if (i == 4) and (j > 0):
@@ -118,7 +117,6 @@ class Pawn(Figure):
                     if mov2 != 0:
                         if (mov2.color != self.color) and (mov2.tip == self.tip):
                             moves.append((i + 1, j - 1))
-                            board[i][j - 1] = 0
             # WHITE
         else:
             # ход вперёд
@@ -131,7 +129,7 @@ class Pawn(Figure):
             if j < 7:
                 mov = board[i - 1][j + 1]
                 if (mov != 0) and (mov.color != self.color):
-                    moves.append((i - 1, j - 1))
+                    moves.append((i - 1, j + 1))
 
             # съедание влево
             if j > 0:
@@ -162,7 +160,7 @@ class Pawn(Figure):
                 if mov == 0:
                     if mov2 != 0:
                         if (mov2.color != self.color) and (mov2.tip == self.tip):
-                            moves.append((i + 1, j - 1))
+                            moves.append((i - 1, j - 1))
 
         return moves
 
@@ -279,6 +277,34 @@ class Knight(Figure):
                 moves.append((i - 2, j + 1))
             elif mov.color != self.color:
                 moves.append((i - 2, j + 1))
+        # row +- 2
+        if (i > 0) and (j > 1):
+            mov = board[i - 1][j - 2]
+            if mov == 0:
+                moves.append((i - 1, j - 2))
+            elif mov.color != self.color:
+                moves.append((i - 1, j - 2))
+
+        if (i > 0) and (j < 6):
+            mov = board[i - 1][j + 2]
+            if mov == 0:
+                moves.append((i - 1, j + 2))
+            elif mov.color != self.color:
+                moves.append((i - 1, j + 2))
+
+        if (i < 7) and (j > 1):
+            mov = board[i + 1][j - 2]
+            if mov == 0:
+                moves.append((i + 1, j - 2))
+            elif mov.color != self.color:
+                moves.append((i + 1, j - 2))
+
+        if (i < 7) and (j < 6):
+            mov = board[i + 1][j + 2]
+            if mov == 0:
+                moves.append((i + 1, j + 2))
+            elif mov.color != self.color:
+                moves.append((i + 1, j + 2))
 
         return moves
 
