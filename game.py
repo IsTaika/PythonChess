@@ -2,6 +2,36 @@ import board
 import pygame
 import os
 import time
+import interface
+
+
+def menu(window):
+    run = True
+
+    clock = pygame.time.Clock()
+    while run:
+        fps = clock.tick(30)
+        menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("img", "background.jpg")), (752, 752))
+        window.blit(menu_bg, (0, 0))
+        button1 = interface.Button(
+            "Start game",
+            (50, 100),
+            font=30,
+            bg='navy',
+            feedback='you clicked me'
+        )
+        button1.show(window, button1)
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                quit()
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    x, y = pygame.mouse.get_pos()
+                    if button1.rect.collidepoint(x, y):
+                        main(window)
 
 
 def click(position):
@@ -15,7 +45,9 @@ def click(position):
     if rez[0] < y < rez[0] + rez[3]:
         j = int(y // (rez[3] / 8))
     print(j, ' ', i)
-    return j, i
+    if -1 < i < 8:
+        if -1 < j < 9:
+            return j, i
 
 
 def window_update(window, bo):
@@ -51,4 +83,4 @@ width = 752
 height = 752
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Python chess")
-main(window)
+menu(window)
