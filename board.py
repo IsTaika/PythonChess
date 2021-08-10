@@ -144,15 +144,15 @@ class Board:
                 if self.board[line][row] != 0:
                     self.board[line][row].selected = False
                 # съедание на проходе справа для чёрных
-                if (line, row) == (pos[0] + 1, pos[1] + 1) and self.board[line][row].tip == 'pawn':
+                if (line, row) == (pos[0] + 1, pos[1] + 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
                     self.board[pos[0]][pos[1] + 1] = 0
                 # съедание на проходе слева для чёрных
-                if (line, row) == (pos[0] + 1, pos[1] - 1) and self.board[line][row].tip == 'pawn':
+                if (line, row) == (pos[0] + 1, pos[1] - 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
                     self.board[pos[0]][pos[1] - 1] = 0
                 # Для белых:
-                if (line, row) == (pos[0] - 1, pos[1] + 1) and self.board[line][row].tip == 'pawn':
+                if (line, row) == (pos[0] - 1, pos[1] + 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
                     self.board[pos[0]][pos[1] + 1] = 0
-                if (line, row) == (pos[0] - 1, pos[1] - 1) and self.board[line][row].tip == 'pawn':
+                if (line, row) == (pos[0] - 1, pos[1] - 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
                     self.board[pos[0]][pos[1] - 1] = 0
             if not moves:
                 self.board[pos[0]][pos[1]].selected = False
@@ -247,6 +247,7 @@ class Board:
             newBoard[start[0]][start[1]] = newBoard[end[0]][end[1]]
             newBoard[end[0]][end[1]] = 0
             self.board = newBoard
+            self.reset_select()
         else:
             self.reset_select()
         self.update_moves()
