@@ -21,7 +21,19 @@ def menu(window):
             feedback='you clicked me'
         )
         button1.show(window, button1)
+        button2 = interface.Button(
+            "Registration",
+            (50, 200),
+            font=30,
+            bg='navy',
+            feedback='you clicked me'
+        )
+        button2.show(window, button2)
+        inputbox = interface.InputBox(50, 300, 10, 100, text='login')
+        inputbox.draw(window)
+        inputbox.update()
         pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
