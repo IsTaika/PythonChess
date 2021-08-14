@@ -94,38 +94,55 @@ class Board:
             return False
 
     def checkmate(self, color):
-        """if self.check(color):
-            change = 0
-            test_board2 = self.board
+        if self.check(color):
+            pos = (-1, -1)
+            for i in range(self.lines):
+                for j in range(self.rows):
+                    if self.board[i][j] != 0:
+                        if self.board[i][j].tip == 'king' and self.board[i][j].color == color:
+                            pos = (i, j)
+                            movelist = self.board[i][j].move_l
+                            if movelist:
+                                for move in movelist:
+                                    if move not in movelist:
+                                        return False
+            d_moves = self.danger_moves(color)
+            dpos = (-1, -1)
+            for i in range(self.lines):
+                for j in range(self.rows):
+                    if self.board[i][j] != 0:
+                        if self.board[i][j].color != color:
+                          movel = self.board[i][j].move_l
+                          if movel:
+                              for moves in movel:
+                                  if moves in d_moves:
+                                      if moves == pos:
+                                          dpos = (i, j)
             for i in range(self.lines):
                 for j in range(self.rows):
                     if self.board[i][j] != 0:
                         if self.board[i][j].color == color:
-                            moves = self.board[i][j].move_l
-                            if moves:
-                                for move in moves:
-                                    test_board = test_board2
-                                    print("MOVE = ", move, "TESTBOARD = ", test_board[i][j])
-                                    test_board[i][j] = test_board2[i][j]
-                                    print("TESTBOARD2 = ", test_board2[i][j], "TESTBOARD = ", test_board[i][j])
-                                    test_board[i][j].change_position(move)
-                                    test_board[move[0]][move[1]] = test_board[i][j]
-                                    self.board = test_board
-                                    if not (self.check(color)):
-                                        change += 1
-                                    self.board = test_board2
+                            movel = self.board[i][j].move_l
+                            if dpos in movel:
+                                return False
+                            for move in movel:
+                                if self.board[dpos[0]][dpos[1]].tip == 'rook':
+                                    if pos[0] == dpos[0]:
+                                        if move[0] == dpos[0]:
+                                            return False
+                                    if pos[1] == dpos[1]:
+                                        if move[1] == dpos[1]:
+                                            return False
+                                if self.board[dpos[0]][dpos[1]].tip == 'queen':
+                                    if pos[0] == dpos[0]:
+                                        if move[0] == dpos[0]:
+                                            return False
+                                    if pos[1] == dpos[1]:
+                                        if move[1] == dpos[1]:
+                                            return False
 
-            if change != 0:
-                return False
-            if self.turn == 'white':
-                self.winner = 'white'
-                print("WHITE WIN")
-            else:
-                self.winner = 'black'
-                print("BLACK WIN")
-            return True
-        else:
-            return False"""
+
+
 
     def select(self, line, row, color):
         change = False
@@ -144,16 +161,35 @@ class Board:
                 if self.board[line][row] != 0:
                     self.board[line][row].selected = False
                 # съедание на проходе справа для чёрных
-                if (line, row) == (pos[0] + 1, pos[1] + 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
-                    self.board[pos[0]][pos[1] + 1] = 0
+                if pos[0] == 3 and color == 'black':
+                    if (line, row) == (pos[0] + 1, pos[1] + 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
+                        self.board[pos[0]][pos[1] + 1] = 0
                 # съедание на проходе слева для чёрных
-                if (line, row) == (pos[0] + 1, pos[1] - 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
-                    self.board[pos[0]][pos[1] - 1] = 0
+                    if (line, row) == (pos[0] + 1, pos[1] - 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
+                        self.board[pos[0]][pos[1] - 1] = 0
                 # Для белых:
-                if (line, row) == (pos[0] - 1, pos[1] + 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
-                    self.board[pos[0]][pos[1] + 1] = 0
-                if (line, row) == (pos[0] - 1, pos[1] - 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
-                    self.board[pos[0]][pos[1] - 1] = 0
+                if pos[0] == 4 and color == 'white':
+                    if (line, row) == (pos[0] - 1, pos[1] + 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
+                        self.board[pos[0]][pos[1] + 1] = 0
+                    if (line, row) == (pos[0] - 1, pos[1] - 1) and self.board[line][row] != 0 and self.board[line][row].tip == 'pawn':
+                        self.board[pos[0]][pos[1] - 1] = 0
+
+                # превращение пешки в ферзя
+                if color == 'black':
+                    if pos != (-1, -1) and self.board[pos[0]][pos[1]] != 0:
+                        if self.board[pos[0]][pos[1]].tip == 'pawn':
+                            if pos[0] == 1:
+                                if line == 0:
+                                    self.board[line][row] = 0
+                                    self.board[line][row] = Queen('black', 'queen', line, row)
+                else:
+                    if pos != (-1, -1) and self.board[pos[0]][pos[1]] != 0:
+                        if self.board[pos[0]][pos[1]].tip == 'pawn':
+                            if pos[0] == 1:
+                                if line == 0:
+                                    self.board[line][row] = 0
+                                    self.board[line][row] = Queen('white', 'queen', line, row)
+
             if not moves:
                 self.board[pos[0]][pos[1]].selected = False
                 self.reset_select()

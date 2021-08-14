@@ -29,7 +29,7 @@ def menu(window):
             feedback='you clicked me'
         )
         button2.show(window, button2)
-        inputbox = interface.InputBox(50, 300, 10, 100, text='login')
+        inputbox = interface.InputBox(50, 300, 100, 30, text='login')
         inputbox.draw(window)
         inputbox.update()
         pygame.display.update()

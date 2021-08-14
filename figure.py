@@ -87,7 +87,7 @@ class Pawn(Figure):
                         moves.append((i + 1, j + 1))
 
             # съедание влево
-            if j > 0:
+            if j > 0 and i < 7:
                 mov = board[i + 1][j - 1]
                 if (mov != 0):
                     if mov.color != self.color:
@@ -126,13 +126,13 @@ class Pawn(Figure):
                     moves.append((i - 1, j))
 
             # съедание вправо
-            if j < 7:
+            if j < 7 and i > 0:
                 mov = board[i - 1][j + 1]
                 if (mov != 0) and (mov.color != self.color):
                     moves.append((i - 1, j + 1))
 
             # съедание влево
-            if j > 0:
+            if j > 0 and i > 0:
                 mov = board[i - 1][j - 1]
                 if (mov != 0) and (mov.color != self.color):
                     moves.append((i - 1, j - 1))
