@@ -46,6 +46,7 @@ def menu(window):
                         main(window)
 
 
+
 def click(position):
     print(position)
     rez = [94, 94, 752, 752]
