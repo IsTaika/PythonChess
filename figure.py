@@ -560,4 +560,3 @@ class Queen(Figure):
 
         return moves
 
-        return moves

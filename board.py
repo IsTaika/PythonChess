@@ -1,5 +1,3 @@
-import pickle
-
 from figure import Pawn
 from figure import King
 from figure import Bishop
@@ -58,6 +56,8 @@ class Board:
         self.turn = 'white'
         self.winner = None
         self.last = None
+        self.text = ""
+        self.amount = 0
 
     def update_moves(self):
         for i in range(self.lines):
@@ -392,6 +392,8 @@ class Board:
             self.reset_select()
         self.update_moves()
         if change:
+            self.text = self.text + str(start) + " " + str(end) + " "
+            self.amount += 1
             if self.board[end[0]][end[1]] != 0:
                 self.board[end[0]][end[1]].moved = True
 
