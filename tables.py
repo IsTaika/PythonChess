@@ -49,6 +49,14 @@ def get_loses_profile():
         loses = row
     return loses
 
+def get_precent_profile():
+    conn = sqlite3.connect('profile.sqlite')
+    cursor = conn.cursor()
+    precent = False
+    for row in cursor.execute("SELECT percent from PROFILE"):
+        if row is not None:
+            precent = row
+    return precent
 
 
 def games_table_create():
@@ -122,15 +130,15 @@ def profile_table_change():
             lose += 1
     procent = 0.0
     if win != 0 and lose != 0:
-        procent = win / lose
-    conn.execute("UPDATE PROFILE set GAMES = " + games + " where ID = " + str(0))
+        procent = (win / games)*100
+    conn.execute("UPDATE PROFILE set GAMES = " + str(games) + " where ID = " + "0")
     conn.commit()
-    conn.execute("UPDATE PROFILE set WINS = " + win + " where ID = " + str(0))
+    conn.execute("UPDATE PROFILE set WINS = " + str(win) + " where ID = " + "0")
     conn.commit()
-    conn.execute("UPDATE PROFILE set LOSES = " + lose + " where ID = " + str(0))
+    conn.execute("UPDATE PROFILE set LOSES = " + str(lose) + " where ID = " + "0")
     conn.commit()
     if procent != 0.0:
-        conn.execute("UPDATE PROFILE set PERCENT = " + procent + " where ID = " + str(0))
+        conn.execute("UPDATE PROFILE set PERCENT = " + str(procent) + " where ID = " + str(0))
         conn.commit()
     conn.close()
     conn2.commit()
@@ -155,5 +163,7 @@ def games_table_append(second, result, amount, info):
 def get_name():
     conn = sqlite3.connect('profile.sqlite')
     cursor = conn.cursor()
-    name = cursor.execute("SELECT name from PROFILE")
+    name = ""
+    for row in cursor.execute("SELECT name from PROFILE"):
+        name = row
     return name

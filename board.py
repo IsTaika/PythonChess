@@ -240,8 +240,10 @@ class Board:
 
             if color == 'white':
                 print("BLACK WIN")
+                self.winner = 'black'
             else:
                 print("WHITE WIN")
+                self.winner = 'white'
             return True
 
     def select(self, line, row, color):

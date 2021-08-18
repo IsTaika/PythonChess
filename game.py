@@ -129,6 +129,13 @@ def menu(window):
     creartor = font.render("by Radmir Khusainov, github rep: https://github.com/IsTaika/PythonChess", 1,
                            (255, 255, 255))
     window.blit(creartor, (10, 700))
+    buttonstatic = interface.Button(
+        "Statistic",
+        (50, 350),
+        font=30,
+        bg='navy'
+    )
+    buttonstatic.show(window, buttonstatic)
     pygame.display.update()
     while run:
         fps = clock.tick(30)
@@ -144,21 +151,24 @@ def menu(window):
                     if buttonblack.rect.collidepoint(x, y) and inputsecond.text != "":
                         colortext = font.render("You are black!:", 1, (255, 255, 255))
                         window.blit(colortext, (500, 300))
-                        color = 'black'
                         opname = inputsecond.text
-                        main(window, color, opname)
+                        main(window, 'black', opname)
                     else:
                         warning = font.render("Enter your opponent's name!", 1, (255, 0, 0))
                         window.blit(warning, (30, 400))
                     if buttonwhite.rect.collidepoint(x, y) and inputsecond.text != "":
                         colortext = font.render("You are white!", 1, (255, 255, 255))
                         window.blit(colortext, (500, 300))
-                        color = 'white'
                         opname = inputsecond.text
-                        main(window, color, opname)
+                        main(window, 'white', opname)
                     else:
                         warning = font.render("Enter your opponent's name!", 1, (255, 0, 0))
                         window.blit(warning, (30, 400))
+                    if buttonstatic.rect.collidepoint(x, y) and tables.get_games_profile() is not None:
+                        statistic_screen(window)
+                    else:
+                        warning = font.render("You need to play more games!", 1, (255, 0, 0))
+                        window.blit(warning, (30, 500))
 
             inputsecond.handle_event(event)
         inputsecond.update()
@@ -190,12 +200,11 @@ def window_update(window, bo):
     pygame.display.update()
 
 
-def main(window, color, opname):
+def main(window, color2, opname):
     run = True
     bo = board.Board(8, 8)
     bo.update_moves()
     clock = pygame.time.Clock()
-    name = tables.get_name()
     while run:
         clock.tick(30)
         window_update(window, bo)
@@ -216,11 +225,13 @@ def main(window, color, opname):
                         bo.winner = 'black'
                     else:
                         bo.winner = 'white'
-        if bo.winner is not None:
-            if color == bo.winner:
-                tables.games_table_append(opname, 'win', bo.amount, bo.text)
-            else:
-                tables.games_table_append(opname, 'lose', bo.amount, bo.text)
+        if bo.winner == color2:
+            print("Winner = ", bo.winner, ' color = ', color2)
+            tables.games_table_append(opname, 'win', bo.amount, bo.text)
+            end_screen(window, bo.winner)
+        if bo.winner != color2 and bo.winner is not None:
+            print("Winner = ", bo.winner, ' color = ', color2)
+            tables.games_table_append(opname, 'lose', bo.amount, bo.text)
             end_screen(window, bo.winner)
 
 
@@ -229,15 +240,16 @@ def end_screen(window, winner):
     menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("img", "background.jpg")), (752, 752))
     window.blit(menu_bg, (0, 0))
     tables.profile_table_change()
-    endtext = font.render(winner + " win!", (255, 255, 255))
-    window.blit(endtext, (400, 400))
+    endtext = font.render(winner + " win!",1 , (255, 255, 255))
+    window.blit(endtext, (100, 100))
     buttonmenu = interface.Button(
         ("Menu"),
-        (400, 500),
+        (100, 200),
         font=30,
         bg='navy'
     )
     buttonmenu.show(window, buttonmenu)
+    pygame.display.update()
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -255,14 +267,48 @@ def statistic_screen(window):
     run = True
     menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("img", "background.jpg")), (752, 752))
     window.blit(menu_bg, (0, 0))
-
+    name = "Name: " + str(tables.get_name())
+    games = "Games: " + str(tables.get_games_profile())
+    country = "Country: " + str(tables.get_country_profile())
+    wins = "Wins: " + str(tables.get_wins_profile())
+    loses = "Loses: " + str(tables.get_loses_profile())
+    percent = ""
+    if tables.get_precent_profile():
+        percent = "Win % :" + str(tables.get_precent_profile())
+    txtzagolovok = font.render("Your statistic: ", 1, (255, 255, 255))
+    window.blit(txtzagolovok, (50, 50))
+    txtname = font.render(name, 1, (255, 255, 255))
+    window.blit(txtname, (50, 100))
+    txtcountry = font.render(country, 1, (255, 255, 255))
+    window.blit(txtcountry, (50, 150))
+    txtgames = font.render(games, 1, (255, 255, 255))
+    window.blit(txtgames, (50, 200))
+    txtwins = font.render(wins, 1, (255, 255, 255))
+    window.blit(txtwins, (50, 250))
+    txtloses = font.render(loses, 1, (255, 255, 255))
+    window.blit(txtloses, (50, 300))
+    if percent != "":
+        txtpercent = font.render(percent, 1, (255, 255, 255))
+        window.blit(txtpercent, (50, 350))
     buttonmenu = interface.Button(
         "Menu",
-        (50, 250),
+        (50, 550),
         font=30,
         bg='navy'
     )
-
+    buttonmenu.show(window, buttonmenu)
+    pygame.display.update()
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                quit()
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    x, y = pygame.mouse.get_pos()
+                    if buttonmenu.rect.collidepoint(x, y):
+                        menu(window)
 
 
 rez = [94, 94, 752, 752]
