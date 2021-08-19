@@ -3,6 +3,29 @@ import sqlite3
 
 # registration:
 
+def get_last_id():
+    conn = sqlite3.connect('games.sqlite')
+    cursor = conn.cursor()
+    last = cursor.execute('SELECT COUNT(*) FROM GAMES')
+    conn.commit()
+    conn.close()
+    return last
+
+
+
+def get_game(id1):
+    conn = sqlite3.connect('games.sqlite')
+    cursor = conn.cursor()
+    id = ""
+    second = ""
+    result = ""
+    for row in cursor.execute("SELECT id, second, result from GAMES where id = ", id1):
+        id = row[0]
+        second = row[1]
+        result = row[2]
+    return id, second, result
+
+
 def registration_table_create():
     conn = sqlite3.connect('profile.sqlite')
     cursor = conn.cursor()

@@ -60,7 +60,7 @@ def registration(window):
     run = True
     menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("img", "background.jpg")), (752, 752))
     window.blit(menu_bg, (0, 0))
-    logintext = font.render("Enter login:", 1, (255, 255, 255))
+    logintext = font.render("Enter name:", 1, (255, 255, 255))
     window.blit(logintext, (50, 50))
     inputlogin = InputBox(50, 100, 50, 30)
     countrytext = font.render("Enter your country: ", 1, (255, 255, 255))
@@ -148,27 +148,30 @@ def menu(window):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     x, y = pygame.mouse.get_pos()
-                    if buttonblack.rect.collidepoint(x, y) and inputsecond.text != "":
-                        colortext = font.render("You are black!:", 1, (255, 255, 255))
-                        window.blit(colortext, (500, 300))
-                        opname = inputsecond.text
-                        main(window, 'black', opname)
-                    else:
-                        warning = font.render("Enter your opponent's name!", 1, (255, 0, 0))
-                        window.blit(warning, (30, 400))
-                    if buttonwhite.rect.collidepoint(x, y) and inputsecond.text != "":
-                        colortext = font.render("You are white!", 1, (255, 255, 255))
-                        window.blit(colortext, (500, 300))
-                        opname = inputsecond.text
-                        main(window, 'white', opname)
-                    else:
-                        warning = font.render("Enter your opponent's name!", 1, (255, 0, 0))
-                        window.blit(warning, (30, 400))
-                    if buttonstatic.rect.collidepoint(x, y) and tables.get_games_profile() is not None:
-                        statistic_screen(window)
-                    else:
-                        warning = font.render("You need to play more games!", 1, (255, 0, 0))
-                        window.blit(warning, (30, 500))
+                    if buttonblack.rect.collidepoint(x, y):
+                        if inputsecond.text != "":
+                            colortext = font.render("You are black!:", 1, (255, 255, 255))
+                            window.blit(colortext, (500, 300))
+                            opname = inputsecond.text
+                            main(window, 'black', opname)
+                        else:
+                            warning = font.render("Enter your opponent's name!", 1, (255, 0, 0))
+                            window.blit(warning, (30, 400))
+                    if buttonwhite.rect.collidepoint(x, y):
+                        if inputsecond.text != "":
+                            colortext = font.render("You are white!", 1, (255, 255, 255))
+                            window.blit(colortext, (500, 300))
+                            opname = inputsecond.text
+                            main(window, 'white', opname)
+                        else:
+                            warning = font.render("Enter your opponent's name!", 1, (255, 0, 0))
+                            window.blit(warning, (30, 400))
+                    if buttonstatic.rect.collidepoint(x, y):
+                        if tables.get_games_profile() is not None:
+                            statistic_screen(window)
+                        else:
+                            warning = font.render("You need to play more games!", 1, (255, 0, 0))
+                            window.blit(warning, (30, 500))
 
             inputsecond.handle_event(event)
         inputsecond.update()
@@ -310,6 +313,70 @@ def statistic_screen(window):
                     if buttonmenu.rect.collidepoint(x, y):
                         menu(window)
 
+def games_show(window, id):
+    txt1 = font.render(" ", 1, (255, 255, 255))
+    window.blit(txt1, (50, 300))
+    txt2 = font.render(" ", 1, (255, 255, 255))
+    window.blit(txt2, (50, 400))
+    txt3 = font.render(" ", 1, (255, 255, 255))
+    window.blit(txt3, (50, 500))
+    txt4 = font.render(" ", 1, (255, 255, 255))
+    window.blit(txt4, (50, 600))
+    txt5 = font.render(" ", 1, (255, 255, 255))
+    window.blit(txt5, (50, 700))
+
+
+def games_screen(window):
+    run = True
+    menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("img", "background.jpg")), (752, 752))
+    window.blit(menu_bg, (0, 0))
+    txt = font.render("Select game: ", 1, (255, 255, 255))
+    window.blit(txt, (50, 200))
+    inputgame = InputBox(50, 100, 50, 30)
+    buttonmenu = interface.Button(
+        "Menu",
+        (50, 100),
+        font=30,
+        bg='navy'
+    )
+    buttonreplay = interface.Button(
+        "Watch replay",
+        (300, 100),
+        font=30,
+        bg='navy'
+    )
+    buttonnext = interface.Button(
+        "Show next games",
+        (450, 700),
+        font=30,
+        bg='navy'
+    )
+    id = tables.get_last_id()
+    id1 = 1
+    clock = pygame.time.Clock()
+    while run:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                quit()
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    x, y = pygame.mouse.get_pos()
+                    if buttonmenu.rect.collidepoint(x, y):
+                        menu(window)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    x, y = pygame.mouse.get_pos()
+                    if buttonnext.rect.collidepoint(x, y):
+                        games_screen(window)
+                        id1
+            inputgame.handle_event(event)
+    inputgame.update()
+    inputgame.draw(window)
+    pygame.display.update()
+    pygame.display.flip()
 
 rez = [94, 94, 752, 752]
 width = 752
